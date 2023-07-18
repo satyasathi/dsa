@@ -1,0 +1,129 @@
+struct Node{  // creating our own datatype
+	int data;   // datatypes we want
+	Node *next;
+	Node(int data){  //constructor
+		this->data = data;  // initialization
+		next=NULL;
+	}
+};
+
+class LinkedList{   // creating class
+public:             // public access spectifier
+	Node *head; // pointer which stores the first node address
+	Node *tail; 
+	LinkedList(){ //constructor -> explicit -> parameterless
+		head = NULL;	// initially head and tail addresses are 0
+		tail = NULL;
+	}
+
+void Insertatend(int val){   // method to insert
+	Node *newnode = new Node(val);  //creating a node
+	if(head==NULL){
+		head = newnode;
+		tail = newnode;
+		return ;
+	}
+	else{
+		tail->next=newnode;
+		tail = tail->next;
+	}
+}
+
+void Insertatbegin(int val){
+	Node *newnode =new Node(val);
+	newnode->next = head;
+	head=newnode;
+
+}
+
+void Insertatposition(int val,int position){
+	int c=1;
+	Node *temp=head;
+	Node *newnode =new Node(val);
+	if(position==1){
+		newnode -> next = head;
+	}
+	else{
+	while(c<position-1){
+		temp=temp-> next;
+		c++;
+	}
+	newnode -> next = temp -> next;
+	temp->next=newnode;
+}
+}
+
+void deletenodeatlast(){
+	int c=1;
+	Node *temp=head;
+	while(temp->next !=NULL){
+		c++;
+		temp=temp->next;
+	}
+	int d=1;
+	Node *tem=head;
+	while(d<c-1){
+		d++;
+		tem=tem->next;
+	}
+	tem->next=NULL;
+}
+
+void deletenodeatfirst(){
+	Node *temp=head;
+	head=head->next;
+	temp->next=NULL;
+}
+
+void deletenodeatposition(int position){
+	int c=1;
+	Node *temp=head;
+	while(c<position-1){
+		temp = temp-> next;
+		c++;
+	}
+	Node*t;
+	if(c==position-1){
+		t= temp->next;
+	}
+	temp-> next = t->next;
+	t->next=NULL;
+}
+
+void searchelement(int val){
+	Node *temp=head;
+	int f=0;
+	int c=1;
+	while(temp){
+		if(temp->data==val){
+			cout << c << "\n";
+			f=1;
+		}
+		c++;
+		temp=temp->next;
+
+	}
+	if(f==0) cout << "no";
+}
+
+void printdata(){
+	Node *temp=head;
+	while(temp){
+		cout << temp->data << " --> ";
+		temp=temp->next;
+	}
+}
+
+};
+
+int main(){
+	LinkedList list;  // likedlist -> class , list-> object
+	list.Insertatend(10);	// accessing methods by using object
+	list.Insertatend(20);
+	list.Insertatend(30); 
+	list.Insertatbegin(40);
+	list.Insertatend(100);
+	list.searchelement(30);
+
+	list.printdata();
+}
