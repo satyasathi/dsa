@@ -1,0 +1,100 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// traversal of undirected map using dfs
+
+void undirectedDFS(vector<int>&visitor , vector<int> adj[] , int node){
+	visitor[node]=1;
+	cout << node << " ";
+	for(auto x:adj[node]){
+		if(!visitor[x]){
+			DFS(visitor,adj,x);
+		}
+	}
+}
+
+//traversal of undirected map using bfs
+
+void undirectedBFS(vector<int>&visitor, vector<int> adj[], int node , queue<int> &q){
+	
+	visitor[node]=1;
+	q.push(node);
+	while(!q.empty()){
+		node = q.front();
+		cout << node << " ";
+		q.pop();
+		for(auto it:adj[node]){
+			if(!visitor[it]){
+				q.push(it);
+				visitor[it]=1;
+			}
+		}
+	}
+}
+
+
+void directedDFS(vector<int>&visitor , vector<int> adj[] , int node, ){
+	visitor[node]=1;
+	cout << node << " ";
+	for(auto x:adj[node]){
+		if(!visitor[x]){
+			directedDFS(visitor,adj,x);
+		}
+	}
+}
+
+/*void directedBFS()
+
+
+int main(){
+	int N,E;
+	cin >> N >> E;
+	vector<int> adj[N+1];
+	int u,v;
+	for(int i=0;i<E;i++){
+		cin >> u >> v;
+		adj[u].push_back(v);
+	}
+
+	vector<int>visitor(N+1,0);
+	for(int i=1;i<N+1;i++){  
+		if(!visitor[i]){
+			directedDFS(visitor,adj,i);
+		}
+	}
+} */
+
+int main(){
+	//reading graph input (undirected)
+	int N,E;
+	cin >> N >> E;
+
+	// using matrix  
+
+	/*int matrix[N+1][N+1];
+	int u,v;
+	for(int i=0;i<E;i++){
+		cin >> u >> v;
+		matrix[u][v] =1;
+		matrix[v][u] =1;
+	} */
+	
+
+	// using adjacent array
+
+	vector<int> adj[N+1];
+	int u,v;
+	for(int i=0;i<E;i++){
+		cin >> u >> v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	vector<int> visitor(N+1,0);
+	queue<int> q;
+	for(int i=1;i<N+1;i++){  //we write this loop to maintain every node even if there are diffternt components..
+		if(!visitor[i]){
+			undirectedBFS(visitor,adj,i,q);
+		}
+	}
+
+} 
