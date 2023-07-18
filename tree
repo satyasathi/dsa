@@ -1,0 +1,140 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Node{
+public:
+	int data;
+	Node *left;
+	Node *right;
+	Node(int val){
+		data=val;
+		left=right =NULL;
+	}
+};
+
+void Inorder(Node *root){
+	if(root==NULL){
+		return;
+	}
+	Inorder(root->left);
+	cout << root->data << " ";
+	Inorder(root->right);
+}
+
+void preorder(Node *root){
+	if(root==NULL){
+		return;
+	}
+	cout << root->data << " ";
+	preorder(root->left);
+	preorder(root->right);
+}
+
+void postorder(Node *root){
+	if(root==NULL){
+		return ;
+	}
+	postorder(root->left);
+	postorder(root->right);
+	cout <<root->data << " ";
+}
+
+void levelorder(Node *root, int index,vector<vector<int>> &res){
+	if(root==NULL){
+		return;
+	}
+	if(res.size()==index){
+		res.push_back({root->data});
+	}
+	else{
+		res[index].push_back({root->data});
+	}
+	levelorder(root->left,index+1,res);
+	levelorder(root->right,index+1,res);
+}
+
+
+void levelorderdq(Node *root , deque<Node*>dq, vector<int>&v ){
+	if(dq.size()==0){
+		dq.push_back(root);
+	}
+	while(!dq.empty()){
+	int size=dq.size();
+	Node *t;
+	for(int i=0;i<size;i++){
+		t=dq.front();
+		if(t->left!=NULL)
+			dq.push_back(t->left);
+		if(t->right!=NULL)
+			dq.push_back(t->right);
+		v.push_back(t->data);
+		dq.pop_front();
+	}
+}
+}
+
+
+
+
+void levelorderdq1(Node *root , queue<pair<Node *,int>> &dq,int index,map<int,int> &mpp){
+	if(dq.size()==0){
+		dq.push({root,0});
+	}
+	while(!dq.empty()){
+	int size=dq.size();
+	for(int i=0;i<size;i++){
+		auto t=dq.front();
+		if(t.first->left!=NULL){
+			dq.push(make_pair(t.first->left,t.second-1) );
+			//cout << t.first->left->data << " " << t.second-1 << "\n";
+			if(mpp.find(t.second-1)==mpp.end()){
+				mpp[t.second-1]=1;
+				cout << t.first->left->data << " ";
+			}
+		}
+		if(t.first->right!=NULL){
+			dq.push({t.first->right,t.second+1});
+			//cout << t.first->right->data << " " << t.second+1 << "\n";
+			if(mpp.find(t.second+1)==mpp.end()){
+				mpp[t.second+1]=1;
+				cout << t.first->right->data << " ";
+			}
+		}
+		dq.pop();
+	}
+}
+}
+
+
+
+int main(){
+	Node *root=new Node(10);
+	Node *first=new Node(20);
+	root->left = first;
+	Node *second = new Node(30);
+	root->right = second;
+	Node *third = new Node(40);
+	first ->left=third;
+	Node *fourth = new Node(50);
+	third ->right = fourth;
+	Node *fifth =new Node(60);
+	second->right = fifth;
+	/*Inorder(root);
+	cout << "\n";
+	preorder(root);
+	cout << "\n";
+	postorder(root);
+	cout << "\n";
+	vector<vector<int>> res;
+	vector<int> arr;
+	levelorder(root,0,res);
+	for(int i=0;i<res.size();i++){
+		for(int j=0;j<res[i].size();j++){
+			cout << res[i][j] << " ";
+		}
+	}
+	cout << "\n";*/
+	queue<pair<Node *,int>> dq;
+	vector<int> v;
+	map<int,int> mpp;
+	levelorderdq1(root,dq,0,mpp);
+}
